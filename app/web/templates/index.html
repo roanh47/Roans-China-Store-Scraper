@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roans China Store Scraper</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Roans <span>China Store</span> Scraper</h1>
+      <p class="sub">Zoek hetzelfde product bij AliExpress en Temu &mdash; en zie waar het goedkoper is.</p>
+    </div>
+    <div class="version">v{{ version }}</div>
+  </header>
+
+  <main>
+    <form id="search-form" class="searchbar" autocomplete="off">
+      <input id="q" name="q" type="search" placeholder="usb c kabel 240W, ugreen, powerbank 20000mAh&hellip;" autofocus>
+      <button type="submit" id="search-button">Zoek</button>
+    </form>
+
+    <div class="controls">
+      <div class="segmented" id="store-switch" role="group" aria-label="Winkel">
+        <button type="button" data-store="aliexpress" class="on">AliExpress</button>
+        <button type="button" data-store="temu">Temu</button>
+        <button type="button" data-store="both">Beide</button>
+      </div>
+      <label class="check"><input type="checkbox" id="choice-only"> Alleen Choice</label>
+      <label class="check"><input type="checkbox" id="use-images" checked> Beeldmatch</label>
+      <button type="button" id="refresh" class="ghost" title="Opnieuw scrapen in plaats van uit de cache">Verversen</button>
+      <span class="meta" id="meta"></span>
+    </div>
+
+    <section id="store-status" class="status" hidden></section>
+    <section id="matches" class="matches" hidden></section>
+    <section id="results" class="grid"></section>
+    <p id="empty" class="empty" hidden></p>
+  </main>
+
+  <aside id="cart" class="cart" hidden>
+    <div class="cart-head">
+      <strong>Mandje</strong>
+      <button type="button" id="cart-clear" class="ghost small">Leegmaken</button>
+    </div>
+    <div class="gauge">
+      <div class="gauge-label">
+        <span>Choice-totaal</span>
+        <span id="choice-total">&euro;&nbsp;0,00 / &euro;&nbsp;{{ '%.0f'|format(choice_min) }}</span>
+      </div>
+      <div class="gauge-bar"><div id="choice-fill" class="gauge-fill"></div></div>
+      <p id="choice-note" class="gauge-note"></p>
+    </div>
+    <ul id="cart-lines" class="cart-lines"></ul>
+    <div class="cart-totals">
+      <div><span>Artikelen</span><span id="sum-items">&euro;&nbsp;0,00</span></div>
+      <div><span>Verzending</span><span id="sum-ship">&euro;&nbsp;0,00</span></div>
+      <div class="total"><span>Totaal</span><span id="sum-total">&euro;&nbsp;0,00</span></div>
+    </div>
+    <ul id="cart-notes" class="cart-notes"></ul>
+  </aside>
+
+  <script src="{{ url_for('static', filename='app.js') }}?v=1"></script>
+</body>
+</html>

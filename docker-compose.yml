@@ -1,0 +1,32 @@
+services:
+  china-store-scraper:
+    build: .
+    image: roans-china-store-scraper:latest
+    container_name: china-store-scraper
+    restart: unless-stopped
+    # Naar buiten toe alleen loopback: Cloudflare Tunnel draait op de host en
+    # komt via 127.0.0.1 binnen. Niets op het LAN.
+    ports:
+      - "127.0.0.1:8304:8304"
+    environment:
+      # In de container op alle interfaces (anders is de poortmapping leeg);
+      # de host-binding hierboven is de echte poortwachter.
+      CSS_HOST: "0.0.0.0"
+      CSS_PORT: "8304"
+      CSS_IMAGE_CACHE: "/data/image-cache"
+      CSS_TEMU_COOKIES: "/data/temu-cookies.json"
+      CSS_CHOICE_MIN_EUR: "10"
+      CSS_SHIPPING_FALLBACK_EUR: "2.99"
+      CSS_MAX_RESULTS: "40"
+      CSS_SEARCH_CACHE_TTL_S: "300"
+      # Vaste DNS: de oude AliExpress-container had een dode resolv.conf
+      # ("no external nameservers") en kon niets resolven. Dit voorkomt dat.
+      # (Docker zet dit ook in /etc/resolv.conf van de container.)
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    # Chromium heeft meer shared memory nodig dan de 64MB standaard.
+    shm_size: 1gb
+    volumes:
+      # Beeldcache + optioneel data/temu-cookies.json (zie README).
+      - ./data:/data

@@ -1,0 +1,24 @@
+# Data en cache van de draaiende container
+data/
+secrets/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Nooit meenemen: sessies, sleutels, echte .env
+.env
+.env.*
+!.env.example
+*.cookie
+*temu-cookies*
