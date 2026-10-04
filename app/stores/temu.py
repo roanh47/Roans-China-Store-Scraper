@@ -239,7 +239,12 @@ def search(query: str, limit: int | None = None) -> StoreResult:
             store=STORE_TEMU,
             status="empty",
             offers=[],
-            note="Temu gaf geen leesbare producten terug.",
+            note=(
+                "Temu gaf geen leesbare producten terug. Zonder sessie toont Temu "
+                "niet-ingelogde bezoekers een login-muur (soms een modal in plaats van "
+                "een verwijzing). Open de deeplink om zelf te kijken, of zet cookies "
+                "van een ingelogd account in data/temu-cookies.json."
+            ),
             elapsed_s=elapsed,
         )
     return StoreResult(store=STORE_TEMU, status="ok", offers=offers, elapsed_s=elapsed)
